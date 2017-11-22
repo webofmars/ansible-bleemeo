@@ -1,0 +1,29 @@
+galaxy_info:
+  author: Frederic Leger
+  description: devops / CTO / CEO
+  company: webofmars
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 1.2
+
+  # If this a Container Enabled role, provide the minimum Ansible Container version.
+  # min_ansible_container_version:
+
+  platforms:
+  - name: Fedora
+    versions:
+      - all
+  - name: CentOs
+    versions:
+      - all
+  - name: Debian
+    versions:
+      - all
+  - name: Ubuntu
+    versions:
+      - all
+
+  galaxy_tags:
+    - system
+    - monitoring
+
+dependencies: []

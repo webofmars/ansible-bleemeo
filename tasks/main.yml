@@ -1,0 +1,43 @@
+---
+# tasks file for webofmars.bleemeo
+
+- name: install docker-py
+  pip:
+    name: docker-py
+    state: present
+
+- name: start bleemeo telegraf container
+  docker_container:
+    name: bleemeo_telegraf
+    image: webofmars/bleemeo-telegraf:stable
+    network_mode: "host"
+    pid_mode: "host"
+    ports:
+      - "8125:8125/udp"
+    volumes:
+      - bleemeo-telegraf-configuration:/etc/telegraf/telegraf.d:ro
+      - /:/hostroot:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels: "{{ bleemeo_labels }}"
+    env:
+      BLEEMEO_HOSTNAME: "{{ inventory_hostname }}"
+
+- name: start bleemeo agent container
+  docker_container:
+    name: bleemeo-agent
+    image: bleemeo/bleemeo-agent:latest
+    network_mode: "host"
+    pid_mode: "host"
+    ports:
+      - "2003:2003"
+      - "8015:8015"
+    volumes:
+      - bleemeo-telegraf-configuration:/etc/telegraf/telegraf.d/
+      - bleemeo-agent-data:/var/lib/bleemeo
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /:/hostroot:ro
+    labels: "{{ bleemeo_labels }}"
+    env:
+      BLEEMEO_AGENT_ACCOUNT: "{{ bleemeo_account_id | mandatory }}"
+      BLEEMEO_AGENT_REGISTRATION_KEY: "{{ bleemeo_registration_key | mandatory }}"
+      BLEEMEO_AGENT_LOGGING_OUTPUT: "{{ bleemeo_agent_logging_output }}"

@@ -1,0 +1,6 @@
+---
+# defaults file for webofmars.bleemeo
+bleemeo_account_id: ""
+bleemeo_registration_key: ""
+bleemeo_agent_logging_output: "console"
+bleemeo_labels: {}
