@@ -24,7 +24,7 @@
 
 - name: start bleemeo agent container
   docker_container:
-    name: bleemeo-agent
+    name: bleemeo_agent
     image: bleemeo/bleemeo-agent:latest
     network_mode: "host"
     pid_mode: "host"
